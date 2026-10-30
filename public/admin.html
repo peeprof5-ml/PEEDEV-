@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PANDA ADMIN | Secure Portal & Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        panda: {
+                            bg: '#030712',
+                            card: '#0b1329',
+                            border: '#1e293b',
+                            cyan: '#00f0ff',
+                            blue: '#0077ff',
+                            darkBlue: '#020d24',
+                            glow: 'rgba(0, 240, 255, 0.4)',
+                        }
+                    },
+                    boxShadow: {
+                        'cyan-glow': '0 0 25px rgba(0, 240, 255, 0.45)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #030712; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .glass-panel {
+            background: rgba(11, 19, 41, 0.85);
+            backdrop-filter: blur(28px) saturate(190%);
+            -webkit-backdrop-filter: blur(28px) saturate(190%);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+        .liquid-glass-nav {
+            background: rgba(3, 7, 18, 0.75);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(0, 240, 255, 0.35);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 240, 255, 0.25);
+        }
+        .cyber-btn-primary {
+            background: linear-gradient(135deg, #00f0ff 0%, #0077ff 100%);
+            color: #000000; font-weight: 800; border: 1px solid #00f0ff;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            transition: all 0.25s ease;
+        }
+        .cyber-btn-primary:hover {
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.8); transform: scale(1.02);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00f0ff; }
+    </style>
+</head>
+<body class="p-4 sm:p-8 pb-32">
+
+    <!-- ADMIN LOGIN GATEWAY MODAL -->
+    <div id="adminAuthModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md rounded-3xl border-2 border-panda-cyan p-6 sm:p-8 shadow-cyan-glow relative">
+            <div class="flex items-center space-x-3 mb-6 pb-4 border-b border-panda-border">
+                <div class="w-10 h-10 rounded-full border border-panda-cyan p-0.5 bg-panda-bg flex items-center justify-center text-panda-cyan text-lg">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold text-white">PANDA ADMIN GATEWAY</h2>
+                    <p class="text-[10px] text-panda-cyan">Authorized Personnel Only</p>
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" onsubmit="handleAdminLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Admin Security Password</label>
+                    <input type="password" id="adminPasswordInput" required placeholder="Enter password..." class="w-full bg-panda-bg border border-panda-border rounded-xl p-3 text-white focus:outline-none focus:border-panda-cyan text-sm font-mono">
+                </div>
+                <button type="submit" class="cyber-btn-primary w-full py-3.5 text-xs flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <span>Unlock Admin Portal</span>
+                </button>
+                <div class="text-right pt-1">
+                    <button type="button" onclick="showResetModal()" class="text-[11px] text-panda-cyan hover:underline">
+                        Forgot Password?
+                    </button>
+                </div>
+            </form>
+
+            <!-- Password Reset Form -->
+            <form id="resetForm" onsubmit="handleAdminReset(event)" class="space-y-4 hidden">
+                <div class="text-xs text-gray-300 mb-2">
+                    Enter the authorized recovery name to reset the admin access password.
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Authorization Name</label>
+                    <input type="text" id="authNameInput" required placeholder="Enter authorization name..." class="w-full bg-panda-bg border border-panda-border rounded-xl p-3 text-white focus:outline-none focus:border-panda-cyan text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">New Security Password</label>
+                    <input type="password" id="newPasswordInput" required placeholder="Enter new password..." class="w-full bg-panda-bg border border-panda-border rounded-xl p-3 text-white focus:outline-none focus:border-panda-cyan text-sm font-mono">
+                </div>
+                <button type="submit" class="cyber-btn-primary w-full py-3.5 text-xs flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-key"></i>
+                    <span>Reset & Save Password</span>
+                </button>
+                <div class="text-right pt-1">
+                    <button type="button" onclick="showLoginModal()" class="text-[11px] text-gray-400 hover:text-panda-cyan">
+                        Back to Login
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN ADMIN DASHBOARD CONTENT -->
+    <div id="adminDashboard" class="max-w-7xl mx-auto space-y-8 opacity-0 transition-opacity duration-500 pointer-events-none">
+        
+        <!-- Header Section -->
+        <header class="glass-panel p-6 rounded-3xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border border-panda-cyan/30 shadow-cyan-glow">
+            <div class="flex items-center space-x-3.5">
+                <div class="w-10 h-10 rounded-full border border-panda-cyan p-0.5 bg-panda-bg flex items-center justify-center overflow-hidden">
+                    <i class="fa-solid fa-shield-halved text-panda-cyan text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight">PANDA ADMIN <span class="text-panda-cyan">MANAGEMENT PORTAL</span></h1>
+                    <p class="text-xs text-gray-400 mt-0.5">Verify gift cards, inspect client phone numbers, and manage milestone progress.</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="loadPayments()" class="px-4 py-2 bg-panda-cyan/10 border border-panda-cyan/40 text-panda-cyan font-bold text-xs rounded-xl hover:bg-panda-cyan/25 transition flex items-center space-x-1.5">
+                    <i class="fa-solid fa-rotate"></i>
+                    <span>Refresh Orders</span>
+                </button>
+                <button onclick="lockAdminSession()" class="px-3 py-2 bg-rose-500/10 border border-rose-500/30 text-rose-400 font-bold text-xs rounded-xl hover:bg-rose-500/20 transition" title="Lock Admin">
+                    <i class="fa-solid fa-lock"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats Overview Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="glass-panel p-5 rounded-2xl border border-panda-border flex items-center justify-between">
+                <div>
+                    <div class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Total Orders</div>
+                    <div id="statTotalOrders" class="text-2xl font-black text-white mt-1">0</div>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-panda-cyan/10 border border-panda-cyan/30 flex items-center justify-center text-panda-cyan">
+                    <i class="fa-solid fa-folder-open text-lg"></i>
+                </div>
+            </div>
+            <div class="glass-panel p-5 rounded-2xl border border-panda-border flex items-center justify-between">
+                <div>
+                    <div class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Pending Review</div>
+                    <div id="statPendingOrders" class="text-2xl font-black text-yellow-400 mt-1">0</div>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-yellow-400">
+                    <i class="fa-solid fa-clock text-lg"></i>
+                </div>
+            </div>
+            <div class="glass-panel p-5 rounded-2xl border border-panda-border flex items-center justify-between">
+                <div>
+                    <div class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Approved & Active</div>
+                    <div id="statApprovedOrders" class="text-2xl font-black text-emerald-400 mt-1">0</div>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                    <i class="fa-solid fa-circle-check text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Orders Table Section -->
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl shadow-2xl border border-panda-cyan/20">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3 pb-4 border-b border-gray-800">
+                <div>
+                    <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+                        <i class="fa-solid fa-list-check text-panda-cyan"></i>
+                        <span>Client Submissions & Milestones</span>
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-0.5">Manage live client gift cards and advance build stages.</p>
+                </div>
+                <div class="text-xs font-mono text-panda-cyan bg-panda-cyan/10 px-3 py-1 rounded-lg border border-panda-cyan/30">
+                    Cleared items remain hidden on refresh
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="border-b border-gray-800 text-gray-400 font-semibold uppercase tracking-wider text-[10px]">
+                            <th class="p-3">Order ID</th>
+                            <th class="p-3">Client Contact & Phone</th>
+                            <th class="p-3">Plan & Price</th>
+                            <th class="p-3">Gift Card Information</th>
+                            <th class="p-3">Payment Status</th>
+                            <th class="p-3">Milestone Progress</th>
+                            <th class="p-3 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentsTableBody">
+                        <tr><td colspan="7" class="p-6 text-center text-gray-500">Loading orders...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIXED BOTTOM TRANSPARENT LIQUID GLASS NAVIGATION BAR -->
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[96%] max-w-lg liquid-glass-nav rounded-2xl px-4 py-2.5 flex items-center justify-around text-xs">
+        <a href="#paymentsTableBody" class="flex flex-col items-center text-panda-cyan font-semibold transition hover:scale-105">
+            <i class="fa-solid fa-gauge-high text-base mb-0.5"></i>
+            <span>Dashboard</span>
+        </a>
+        <button onclick="loadPayments()" class="flex flex-col items-center text-gray-400 hover:text-panda-cyan font-semibold transition hover:scale-105">
+            <i class="fa-solid fa-rotate text-base mb-0.5"></i>
+            <span>Reload Data</span>
+        </button>
+        <button onclick="clearAllClearedHistory()" class="flex flex-col items-center text-gray-400 hover:text-rose-400 font-semibold transition hover:scale-105" title="Restore cleared orders">
+            <i class="fa-solid fa-rotate-left text-base mb-0.5"></i>
+            <span>Restore Cleared</span>
+        </button>
+        <a href="/" target="_blank" class="flex flex-col items-center text-gray-400 hover:text-panda-cyan font-semibold transition hover:scale-105">
+            <i class="fa-solid fa-globe text-base mb-0.5"></i>
+            <span>View Client Site</span>
+        </a>
+    </nav>
+
+    <script>
+        const API_BASE = window.location.origin;
+
+        // Initialize default password if not already set
+        if (!localStorage.getItem('panda_admin_password')) {
+            localStorage.setItem('panda_admin_password', 'EdwinP');
+        }
+
+        window.onload = function() {
+            const isUnlocked = sessionStorage.getItem('panda_admin_unlocked') === 'true';
+            if (isUnlocked) {
+                unlockAdminUI();
+            }
+        };
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const inputVal = document.getElementById('adminPasswordInput').value.trim();
+            const storedPassword = localStorage.getItem('panda_admin_password') || 'EdwinP';
+
+            if (inputVal === storedPassword) {
+                sessionStorage.setItem('panda_admin_unlocked', 'true');
+                unlockAdminUI();
+            } else {
+                alert('Invalid admin security password! (Hint: default is EdwinP)');
+                document.getElementById('adminPasswordInput').value = '';
+            }
+        }
+
+        function unlockAdminUI() {
+            const modal = document.getElementById('adminAuthModal');
+            const dashboard = document.getElementById('adminDashboard');
+
+            modal.classList.add('hidden');
+            dashboard.classList.remove('opacity-0', 'pointer-events-none');
+            loadPayments();
+        }
+
+        function lockAdminSession() {
+            sessionStorage.removeItem('panda_admin_unlocked');
+            window.location.reload();
+        }
+
+        function showResetModal() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('resetForm').classList.remove('hidden');
+        }
+
+        function showLoginModal() {
+            document.getElementById('resetForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+        }
+
+        function handleAdminReset(e) {
+            e.preventDefault();
+            const authName = document.getElementById('authNameInput').value.trim();
+            const newPassword = document.getElementById('newPasswordInput').value.trim();
+
+            if (authName === 'Edwin') {
+                if (newPassword.length < 4) {
+                    alert('Password must be at least 4 characters long.');
+                    return;
+                }
+                localStorage.setItem('panda_admin_password', newPassword);
+                alert('Admin password successfully reset! You can now log in with your new password.');
+                document.getElementById('authNameInput').value = '';
+                document.getElementById('newPasswordInput').value = '';
+                showLoginModal();
+            } else {
+                alert('Incorrect Authorization Name! Only "Edwin" is authorized to reset the admin password.');
+            }
+        }
+
+        async function loadPayments() {
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/payments`);
+                const payments = await res.json();
+                const tbody = document.getElementById('paymentsTableBody');
+
+                let clearedOrders = JSON.parse(localStorage.getItem('panda_admin_cleared_orders') || '[]');
+                const activePayments = payments.filter(p => !clearedOrders.includes(p.id));
+
+                document.getElementById('statTotalOrders').innerText = payments.length;
+                document.getElementById('statPendingOrders').innerText = payments.filter(p => p.status === 'pending').length;
+                document.getElementById('statApprovedOrders').innerText = payments.filter(p => p.status === 'approved').length;
+
+                if (activePayments.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-gray-500">No active payment submissions in view. (Some may be cleared)</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = activePayments.map(p => {
+                    let statusBadge = '';
+                    if (p.status === 'pending') statusBadge = '<span class="px-2.5 py-1 rounded-full bg-yellow-500/20 text-yellow-400 font-bold border border-yellow-500/30 text-[10px]">Pending</span>';
+                    else if (p.status === 'approved') statusBadge = '<span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30 text-[10px]">Approved</span>';
+                    else if (p.status === 'denied') statusBadge = '<span class="px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-400 font-bold border border-rose-500/30 text-[10px]">Denied</span>';
+
+                    const currentStage = p.stage || 'in_progress';
+
+                    return `
+                        <tr class="border-b border-gray-800/60 hover:bg-panda-cyan/5 transition-colors">
+                            <td class="p-3 font-mono font-bold text-panda-cyan">${p.id}</td>
+                            <td class="p-3">
+                                <div class="font-bold text-white">${p.name}</div>
+                                <div class="text-gray-400 text-[10px]">${p.email}</div>
+                                <div class="text-panda-cyan text-[11px] font-mono mt-0.5"><i class="fa-solid fa-phone mr-1"></i>${p.phone}</div>
+                            </td>
+                            <td class="p-3">
+                                <div class="font-semibold text-white">${p.plan}</div>
+                                <div class="text-panda-cyan font-mono font-bold">$${p.price} USD</div>
+                            </td>
+                            <td class="p-3 font-mono">
+                                <div class="text-white font-bold">${p.brand}</div>
+                                <div class="text-gray-400 text-[10px]">Code: <span class="text-panda-cyan">${p.code}</span></div>
+                            </td>
+                            <td class="p-3">${statusBadge}</td>
+                            <td class="p-3">
+                                <select onchange="updateProjectStage('${p.id}', this.value)" class="bg-panda-bg border border-panda-border rounded-lg p-1.5 text-white font-medium text-xs focus:outline-none focus:border-panda-cyan">
+                                    <option value="in_progress" ${currentStage === 'in_progress' ? 'selected' : ''}>In Progress</option>
+                                    <option value="review" ${currentStage === 'review' ? 'selected' : ''}>Reviewing</option>
+                                    <option value="completed" ${currentStage === 'completed' ? 'selected' : ''}>Completed</option>
+                                </select>
+                            </td>
+                            <td class="p-3 text-right space-x-1 whitespace-nowrap">
+                                <button onclick="reviewPayment('${p.id}', 'approve')" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition shadow-md" title="Approve Payment"><i class="fa-solid fa-check"></i></button>
+                                <button onclick="reviewPayment('${p.id}', 'deny')" class="px-2.5 py-1.5 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-lg transition shadow-md" title="Deny Payment"><i class="fa-solid fa-xmark"></i></button>
+                                <button onclick="clearPaymentFromView('${p.id}')" class="px-2.5 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold rounded-lg transition border border-gray-700" title="Clear/Remove from View"><i class="fa-solid fa-eye-slash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error(err);
+                alert('Failed to load payments from server.');
+            }
+        }
+
+        async function reviewPayment(orderId, action) {
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/payments/review`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ orderId, action })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    loadPayments();
+                } else {
+                    alert('Error updating payment status.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server connection failed.');
+            }
+        }
+
+        async function updateProjectStage(orderId, stage) {
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/project/stage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ orderId, stage })
+                });
+                const data = await res.json();
+                if (!data.success) {
+                    alert('Failed to update project stage.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server connection failed.');
+            }
+        }
+
+        function clearPaymentFromView(orderId) {
+            if (!confirm(`Are you sure you want to clear order ${orderId} from your admin view?`)) return;
+
+            let clearedOrders = JSON.parse(localStorage.getItem('panda_admin_cleared_orders') || '[]');
+            if (!clearedOrders.includes(orderId)) {
+                clearedOrders.push(orderId);
+                localStorage.setItem('panda_admin_cleared_orders', JSON.stringify(clearedOrders));
+            }
+            loadPayments();
+        }
+
+        function clearAllClearedHistory() {
+            if (confirm('Restore all cleared orders back to the admin view?')) {
+                localStorage.removeItem('panda_admin_cleared_orders');
+                loadPayments();
+            }
+        }
+    </script>
+</body>
+</html>
+

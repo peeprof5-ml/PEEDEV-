@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PANDA WEB CREATORS | Custom Web Creation Studio</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        panda: {
+                            bg: '#030712',
+                            card: '#0b1329',
+                            border: '#1e293b',
+                            cyan: '#00f0ff',
+                            blue: '#0077ff',
+                            darkBlue: '#020d24',
+                            glow: 'rgba(0, 240, 255, 0.4)',
+                        }
+                    },
+                    boxShadow: {
+                        'cyan-glow': '0 0 25px rgba(0, 240, 255, 0.45)',
+                        'cyan-glow-lg': '0 0 50px rgba(0, 240, 255, 0.75)',
+                        'glass': '0 20px 40px rgba(0, 0, 0, 0.8)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+        body, html {
+            margin: 0; padding: 0; width: 100%;
+            font-family: 'Inter', sans-serif;
+            background-color: #030712; color: #f8fafc;
+            overflow-x: hidden; -webkit-font-smoothing: antialiased;
+        }
+        .glass-panel {
+            background: rgba(11, 19, 41, 0.75);
+            backdrop-filter: blur(28px) saturate(190%);
+            -webkit-backdrop-filter: blur(28px) saturate(190%);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+        .cyber-btn {
+            position: relative;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.12) 0%, rgba(0, 119, 255, 0.25) 100%);
+            border: 1px solid #00f0ff;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .cyber-btn:hover {
+            background: linear-gradient(135deg, #00f0ff 0%, #0077ff 100%);
+            color: #000000 !important;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.65), 0 0 10px rgba(0, 119, 255, 0.8);
+            transform: translateY(-2px);
+        }
+        .cyber-btn-primary {
+            background: linear-gradient(135deg, #00f0ff 0%, #0077ff 100%);
+            color: #000000; font-weight: 800; border: 1px solid #00f0ff;
+            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+            box-shadow: 0 0 18px rgba(0, 240, 255, 0.4); transition: all 0.25s ease;
+        }
+        .cyber-btn-primary:hover {
+            box-shadow: 0 0 35px rgba(0, 240, 255, 0.85); transform: scale(1.02);
+        }
+        .liquid-glass-nav {
+            background: rgba(3, 7, 18, 0.7);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(0, 240, 255, 0.35);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 240, 255, 0.25);
+        }
+        .glass-card-hover { transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+        .glass-card-hover:hover {
+            border-color: rgba(0, 240, 255, 0.65);
+            box-shadow: 0 0 35px rgba(0, 240, 255, 0.35);
+            transform: translateY(-4px);
+        }
+        .neon-text-glow { text-shadow: 0 0 20px rgba(0, 240, 255, 0.85); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00f0ff; }
+        .app-view { display: none; width: 100%; min-height: calc(100vh - 5rem); opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .app-view.active { display: flex; flex-direction: column; opacity: 1; }
+        @keyframes floatLogo { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-8px) rotate(1deg); } }
+        .animate-float { animation: floatLogo 4s ease-in-out infinite; }
+        @keyframes cyanPulse { 0%, 100% { opacity: 0.25; transform: scale(1); } 50% { opacity: 0.55; transform: scale(1.08); } }
+        .animate-cyan-pulse { animation: cyanPulse 4s ease-in-out infinite; }
+    </style>
+</head>
+<body class="selection:bg-panda-cyan selection:text-black pb-32">
+
+    <!-- Cyber Panda Vector Asset -->
+    <svg style="display: none;">
+        <symbol id="panda-cyber-logo" viewBox="0 0 500 500">
+            <defs>
+                <linearGradient id="hoodGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#00f0ff" />
+                    <stop offset="50%" stop-color="#0088ff" />
+                    <stop offset="100%" stop-color="#002b99" />
+                </linearGradient>
+                <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#00f0ff" />
+                    <stop offset="70%" stop-color="#0055cc" />
+                    <stop offset="100%" stop-color="#010a18" />
+                </radialGradient>
+                <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="8" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+            </defs>
+            <path d="M 250,15 C 370,15 480,90 460,220 C 440,340 380,440 250,485 C 120,440 60,340 40,220 C 20,90 130,15 250,15 Z" fill="#02050b" stroke="url(#hoodGrad)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonGlow)"/>
+            <path d="M 40,220 Q 15,160 80,130 Q 50,200 110,230" fill="url(#hoodGrad)"/>
+            <path d="M 460,220 Q 485,160 420,130 Q 450,200 390,230" fill="url(#hoodGrad)"/>
+            <path d="M 250,15 Q 260,80 320,60 Q 280,100 350,110" fill="url(#hoodGrad)"/>
+            <path d="M 250,15 Q 240,80 180,60 Q 220,100 150,110" fill="url(#hoodGrad)"/>
+            <path d="M 250,45 C 340,45 420,110 410,230 C 400,320 340,410 250,445 C 160,410 100,320 90,230 C 80,110 160,45 250,45 Z" fill="#060b17"/>
+            <path d="M 250,70 Q 370,80 375,225 Q 380,350 250,415 Q 120,350 125,225 Q 130,80 250,70 Z" fill="none" stroke="#00f0ff" stroke-width="14" stroke-linecap="round"/>
+            <ellipse cx="165" cy="155" rx="42" ry="38" fill="#060b17" stroke="#00f0ff" stroke-width="4"/>
+            <ellipse cx="335" cy="155" rx="42" ry="38" fill="#060b17" stroke="#00f0ff" stroke-width="4"/>
+            <path d="M 150,200 C 140,280 160,370 250,370 C 340,370 360,280 350,200 C 340,140 290,130 250,130 C 210,130 160,140 150,200 Z" fill="#ffffff"/>
+            <path d="M 160,235 C 140,210 150,285 190,290 C 215,290 205,240 175,230 Z" fill="#060b17"/>
+            <path d="M 340,235 C 360,210 350,285 310,290 C 285,290 295,240 325,230 Z" fill="#060b17"/>
+            <ellipse cx="182" cy="258" rx="16" ry="20" fill="url(#eyeGlow)"/>
+            <circle cx="178" cy="252" r="5" fill="#ffffff"/>
+            <ellipse cx="318" cy="258" rx="16" ry="20" fill="url(#eyeGlow)"/>
+            <circle cx="322" cy="252" r="5" fill="#ffffff"/>
+            <path d="M 225,295 Q 250,280 275,295 Q 250,320 225,295 Z" fill="#060b17"/>
+            <path d="M 235,322 Q 250,335 265,322" fill="none" stroke="#060b17" stroke-width="5" stroke-linecap="round"/>
+        </symbol>
+    </svg>
+
+    <!-- Top Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-40 glass-panel border-b border-panda-cyan/20 px-4 sm:px-8 py-2.5 flex items-center justify-between">
+        <div onclick="switchView('home')" class="flex items-center space-x-2.5 cursor-pointer group">
+            <div class="relative w-8 h-8 rounded-full border border-panda-cyan/80 shadow-cyan-glow bg-panda-bg p-0.5 flex items-center justify-center overflow-hidden">
+                <svg class="w-full h-full"><use href="#panda-cyber-logo"/></svg>
+            </div>
+            <div class="flex flex-col">
+                <span class="text-sm sm:text-base font-black tracking-wider text-white leading-tight">PANDA <span class="text-panda-cyan neon-text-glow">WEB</span> CREATORS</span>
+                <span class="text-[8px] tracking-widest text-panda-blue font-bold uppercase">Custom Website Studio</span>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-3">
+            <div id="userBadge" class="hidden sm:flex items-center space-x-2 px-2.5 py-1 rounded-lg bg-panda-cyan/10 border border-panda-cyan/40 text-[11px]">
+                <i class="fa-solid fa-user-check text-panda-cyan"></i>
+                <span id="badgeUserName" class="font-bold text-white">Guest</span>
+            </div>
+            <button onclick="openSignupModal()" class="cyber-btn-primary px-3.5 py-1.5 text-xs text-black">
+                <i class="fa-solid fa-user-plus mr-1"></i> <span id="authBtnLabel">Sign Up</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- RANDOM TRANSPARENT GLASS UPDATE POPUP -->
+    <div id="updatePopup" class="fixed bottom-24 right-6 z-50 hidden transition-all duration-500 translate-y-10 opacity-0">
+        <div class="glass-panel p-4 sm:p-5 rounded-2xl border-2 border-panda-cyan shadow-cyan-glow max-w-xs sm:max-w-sm relative">
+            <button onclick="closeUpdatePopup()" class="absolute top-3 right-3 text-gray-400 hover:text-panda-cyan text-sm">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-start space-x-3">
+                <div class="w-8 h-8 rounded-full bg-panda-cyan/20 border border-panda-cyan flex items-center justify-center text-panda-cyan shrink-0 mt-0.5">
+                    <i class="fa-solid fa-rotate animate-spin"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white text-xs sm:text-sm mb-1">Live Updates Made!</h4>
+                    <p class="text-[11px] text-gray-300 mb-3 leading-relaxed">Refresh page for latest updates made and progress.</p>
+                    <button onclick="window.location.reload()" class="cyber-btn-primary w-full py-2 text-[11px] flex items-center justify-center space-x-1.5">
+                        <i class="fa-solid fa-arrow-rotate-right"></i>
+                        <span>Refresh Now</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP VIEWS CONTAINER -->
+    <main class="w-full pt-16">
+
+        <!-- ================= VIEW 1: HOME ================= -->
+        <section id="view-home" class="app-view justify-center items-center px-4 sm:px-6 lg:px-8 relative overflow-hidden py-8">
+            <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-panda-cyan/10 rounded-full blur-[150px] pointer-events-none animate-cyan-pulse"></div>
+            
+            <div class="max-w-6xl mx-auto text-center relative z-10 w-full">
+                <div class="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-full glass-panel border border-panda-cyan/40 mb-6 animate-float shadow-cyan-glow">
+                    <div class="w-7 h-7 rounded-full border border-panda-cyan p-0.5 bg-panda-bg flex items-center justify-center overflow-hidden">
+                        <svg class="w-full h-full"><use href="#panda-cyber-logo"/></svg>
+                    </div>
+                    <span class="text-[11px] font-bold tracking-widest text-panda-cyan uppercase">Pay For Your Own Web Creation</span>
+                </div>
+
+                <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white mb-6 leading-tight">
+                    NEXT-GEN <span class="text-transparent bg-clip-text bg-gradient-to-r from-panda-cyan via-blue-400 to-panda-blue neon-text-glow">PANDA WEB CREATORS</span>
+                </h1>
+
+                <p class="max-w-3xl mx-auto text-sm sm:text-lg text-gray-300 mb-8 leading-relaxed font-normal">
+                    Get custom websites designed, built, and launched to perfection. Configure your features, make secure gift card payments, and track live project progress.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 mb-12">
+                    <button onclick="switchView('builder')" class="cyber-btn-primary w-full sm:w-auto px-7 py-3.5 text-sm">
+                        <i class="fa-solid fa-calculator mr-2"></i> Custom Web Calculator
+                    </button>
+                    <button onclick="switchView('tracker')" class="cyber-btn w-full sm:w-auto px-7 py-3.5 text-sm text-white font-bold">
+                        <i class="fa-solid fa-radar mr-2"></i> Track Orders & Progress
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto">
+                    <div class="glass-panel p-4 rounded-2xl border border-panda-border">
+                        <div class="text-2xl sm:text-3xl font-black text-panda-cyan">400+</div>
+                        <div class="text-xs text-gray-400 mt-1">Sites Built</div>
+                    </div>
+                    <div class="glass-panel p-4 rounded-2xl border border-panda-border">
+                        <div class="text-2xl sm:text-3xl font-black text-panda-blue">100%</div>
+                        <div class="text-xs text-gray-400 mt-1">Custom Code</div>
+                    </div>
+                    <div class="glass-panel p-4 rounded-2xl border border-panda-border">
+                        <div class="text-2xl sm:text-3xl font-black text-panda-cyan">3-5 Days</div>
+                        <div class="text-xs text-gray-400 mt-1">Average Delivery</div>
+                    </div>
+                    <div class="glass-panel p-4 rounded-2xl border border-panda-border">
+                        <div class="text-2xl sm:text-3xl font-black text-panda-blue">24/7</div>
+                        <div class="text-xs text-gray-400 mt-1">WhatsApp Support</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VIEW 2: BUILDER (CUSTOM CALCULATOR) ================= -->
+        <section id="view-builder" class="app-view justify-start items-center py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto w-full">
+                <div class="text-center mb-12">
+                    <span class="text-xs font-bold uppercase tracking-widest text-panda-cyan">Interactive Price Calculator</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-2 mb-4">
+                        Custom Web <span class="text-panda-cyan neon-text-glow">Project Configurator</span>
+                    </h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
+                        Customize every component of your site and get an exact transparent price before starting creation.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                    <div class="lg:col-span-2 space-y-8">
+                        <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-panda-border">
+                            <div class="flex items-center space-x-3 mb-6">
+                                <span class="w-8 h-8 rounded-full bg-panda-cyan text-black font-extrabold flex items-center justify-center text-sm">1</span>
+                                <h3 class="text-xl font-bold text-white">Select Website Type</h3>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="archetypeContainer"></div>
+                        </div>
+
+                        <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-panda-border">
+                            <div class="flex items-center space-x-3 mb-6">
+                                <span class="w-8 h-8 rounded-full bg-panda-cyan text-black font-extrabold flex items-center justify-center text-sm">2</span>
+                                <h3 class="text-xl font-bold text-white">Select Custom Features</h3>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="featuresContainer"></div>
+                        </div>
+
+                        <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-panda-border">
+                            <div class="flex items-center space-x-3 mb-6">
+                                <span class="w-8 h-8 rounded-full bg-panda-cyan text-black font-extrabold flex items-center justify-center text-sm">3</span>
+                                <h3 class="text-xl font-bold text-white">Select Hosting Infrastructure</h3>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="hostingContainer"></div>
+                        </div>
+                    </div>
+
+                    <div class="sticky top-20 glass-panel p-6 sm:p-7 rounded-2xl border-2 border-panda-cyan/50 shadow-cyan-glow">
+                        <div class="flex items-center space-x-3 pb-4 border-b border-panda-border">
+                            <div class="w-8 h-8 rounded-full border border-panda-cyan p-0.5 bg-panda-bg flex items-center justify-center overflow-hidden">
+                                <svg class="w-full h-full"><use href="#panda-cyber-logo"/></svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white leading-tight text-sm">Live Project Estimate</h4>
+                                <span class="text-[10px] text-panda-cyan font-mono">Real-time Calculation</span>
+                            </div>
+                        </div>
+
+                        <div class="py-5 space-y-3.5">
+                            <div class="flex justify-between text-xs">
+                                <span class="text-gray-400">Website Type:</span>
+                                <span id="summaryArchetype" class="font-semibold text-white">Business Web</span>
+                            </div>
+                            <div class="flex justify-between text-xs">
+                                <span class="text-gray-400">Add-ons Selected:</span>
+                                <span id="summaryFeaturesCount" class="font-semibold text-panda-cyan">0 items</span>
+                            </div>
+                            <div class="flex justify-between text-xs">
+                                <span class="text-gray-400">Hosting:</span>
+                                <span id="summaryHosting" class="font-semibold text-white">Standard</span>
+                            </div>
+                            <div class="flex justify-between text-xs">
+                                <span class="text-gray-400">Delivery Timeline:</span>
+                                <span id="summaryTimeline" class="font-semibold text-panda-blue">3-5 Days</span>
+                            </div>
+
+                            <div class="pt-4 border-t border-panda-border">
+                                <div class="text-[11px] text-gray-400 mb-1">Total Web Creation Price</div>
+                                <div class="text-3xl font-black text-white flex items-baseline">
+                                    $<span id="totalPriceDisplay" class="text-panda-cyan neon-text-glow">299</span>
+                                    <span class="text-xs text-gray-400 font-normal ml-2">USD</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="checkoutCustomProject()" class="cyber-btn-primary w-full py-3.5 text-xs flex items-center justify-center space-x-2">
+                            <span>Pay For Creation Now</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VIEW 3: TRACKER & SAVED USER ORDERS ================= -->
+        <section id="view-tracker" class="app-view justify-start items-center py-8 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto w-full space-y-8">
+                
+                <!-- My Saved Orders Section -->
+                <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-panda-cyan/35 shadow-cyan-glow">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center space-x-2.5">
+                            <div class="w-7 h-7 rounded-full border border-panda-cyan p-0.5 bg-panda-bg flex items-center justify-center overflow-hidden">
+                                <svg class="w-full h-full"><use href="#panda-cyber-logo"/></svg>
+                            </div>
+                            <h3 class="text-lg font-black text-white">Your Saved Orders</h3>
+                        </div>
+                        <button onclick="loadUserSavedOrders()" class="px-3 py-1.5 bg-panda-cyan/10 border border-panda-cyan/30 text-panda-cyan font-bold text-xs rounded-xl hover:bg-panda-cyan/25 transition">
+                            <i class="fa-solid fa-rotate mr-1"></i> Refresh List
+                        </button>
+                    </div>
+                    <p class="text-gray-400 text-xs mb-5">Active orders saved on this browser. Completed orders disappear automatically, and you can cancel any order below.</p>
+                    
+                    <div id="savedOrdersContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-60 overflow-y-auto pr-1">
+                        <div class="p-4 rounded-xl border border-panda-border bg-panda-bg/40 text-center text-gray-500 text-xs col-span-full">
+                            No saved orders found yet. Submit a project or enter an Order ID below.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single Order Track Box -->
+                <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-panda-cyan/30">
+                    <div class="flex items-center space-x-2.5 mb-2">
+                        <span class="text-xs font-bold uppercase tracking-widest text-panda-cyan">Live Client Tracking Portal</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white mb-3">Track Website Build Status</h2>
+                    <p class="text-gray-400 text-xs sm:text-sm mb-6">
+                        Enter your order ID below to view real-time developer updates on your custom web creation.
+                    </p>
+
+                    <!-- Support Callout Box -->
+                    <div class="mb-6 p-4 rounded-xl border border-panda-cyan/40 bg-panda-cyan/10 flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs gap-3">
+                        <div class="text-gray-300">
+                            <strong class="text-white block mb-0.5"><i class="fa-solid fa-headset text-panda-cyan mr-1"></i> Need help getting your web project started or delivered?</strong>
+                            Contact support directly on WhatsApp to coordinate assets and deployment with our team.
+                        </div>
+                        <a href="https://wa.me/19179205781?text=Hello%20Panda%20Web%20Creators,%20I%20would%20like%20to%20get%20my%20web%20project%20started." target="_blank" class="cyber-btn-primary px-4 py-2.5 rounded-xl text-black font-bold whitespace-nowrap">
+                            <i class="fa-brands fa-whatsapp mr-1"></i> Contact Support
+                        </a>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3 mb-6">
+                        <input type="text" id="trackerInput" placeholder="Enter Order ID (e.g. PANDA-8291)" class="bg-panda-bg/90 border border-panda-border rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-panda-cyan flex-1 font-mono text-xs">
+                        <button onclick="checkProjectStatus()" class="cyber-btn-primary px-6 py-2.5 text-xs">
+                            <i class="fa-solid fa-radar mr-2"></i> Track Order
+                        </button>
+                    </div>
+
+                    <div id="trackerResult" class="glass-panel p-6 rounded-2xl border border-panda-border">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-2">
+                            <div>
+                                <h4 class="font-bold text-white text-lg" id="trackerProjectTitle">Project: Custom Web Creation</h4>
+                                <span class="text-xs text-gray-400" id="trackerOrderID">ID: PANDA-8291</span>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/40" id="trackerStatusBadge">Pending Admin Review</span>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="w-full bg-panda-bg rounded-full h-3 overflow-hidden border border-panda-border">
+                                <div id="progressBar" class="bg-gradient-to-r from-panda-cyan to-panda-blue h-full rounded-full transition-all duration-1000" style="width: 25%;"></div>
+                            </div>
+
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center text-xs">
+                                <div class="p-3 rounded-xl bg-panda-bg/60 border border-panda-cyan/30">
+                                    <i class="fa-solid fa-file-invoice text-panda-cyan mb-1 text-base"></i>
+                                    <div class="font-bold text-white">1. Submitted</div>
+                                    <div class="text-[10px] text-emerald-400 font-semibold">Done</div>
+                                </div>
+                                <div id="step2Box" class="p-3 rounded-xl bg-panda-bg/60 border border-panda-border opacity-50">
+                                    <i class="fa-solid fa-shield-check text-panda-cyan mb-1 text-base"></i>
+                                    <div class="font-bold text-white">2. Verified</div>
+                                    <div id="step2Text" class="text-[10px] text-gray-400">Pending</div>
+                                </div>
+                                <div id="step3Box" class="p-3 rounded-xl bg-panda-bg/60 border border-panda-border opacity-50">
+                                    <i class="fa-solid fa-code text-panda-cyan mb-1 text-base"></i>
+                                    <div class="font-bold text-white">3. Build & Review</div>
+                                    <div id="step3Text" class="text-[10px] text-gray-400">Pending</div>
+                                </div>
+                                <div id="step4Box" class="p-3 rounded-xl bg-panda-bg/60 border border-panda-border opacity-50">
+                                    <i class="fa-solid fa-rocket text-panda-cyan mb-1 text-base"></i>
+                                    <div class="font-bold text-white">4. Domain Launch</div>
+                                    <div id="step4Text" class="text-[10px] text-gray-400">Pending</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= VIEW 4: PORTFOLIO ================= -->
+        <section id="view-portfolio" class="app-view justify-start items-center py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto w-full">
+                <div class="text-center mb-12">
+                    <span class="text-xs font-bold uppercase tracking-widest text-panda-cyan">Portfolio Showcase</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-2 mb-4">
+                        Created By <span class="text-panda-cyan neon-text-glow">PANDA WEB CREATORS</span>
+                    </h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
+                        Browse recent websites designed and coded by our team for clients globally.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="portfolioGrid"></div>
+            </div>
+        </section>
+
+        <!-- ================= VIEW 5: REVIEWS ================= -->
+        <section id="view-reviews" class="app-view justify-start items-center py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto w-full">
+                <div class="text-center mb-12">
+                    <span class="text-xs font-bold uppercase tracking-widest text-panda-cyan">Testimonials</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-2 mb-4">
+                        What Our <span class="text-panda-cyan neon-text-glow">Clients Say</span>
+                    </h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
+                        See reviews from clients who paid for their web creation on our platform.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="glass-panel p-8 rounded-2xl border border-panda-border flex flex-col justify-between">
+                        <div>
+                            <div class="flex text-panda-cyan space-x-1 mb-4 text-sm">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-gray-300 text-sm mb-6 leading-relaxed">"Panda Web Creators delivered our e-commerce app in 4 days. The neon liquid interface is fast and increased customer conversions!"</p>
+                        </div>
+                        <div class="flex items-center space-x-3 pt-4 border-t border-panda-border">
+                            <div class="w-10 h-10 rounded-full bg-panda-cyan/20 border border-panda-cyan flex items-center justify-center font-bold text-panda-cyan">MV</div>
+                            <div>
+                                <div class="font-bold text-white text-sm">Marcus Vance</div>
+                                <div class="text-xs text-gray-400">CEO, Neon Store</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-8 rounded-2xl border border-panda-border flex flex-col justify-between">
+                        <div>
+                            <div class="flex text-panda-cyan space-x-1 mb-4 text-sm">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-gray-300 text-sm mb-6 leading-relaxed">"The live WhatsApp developer connection made communication seamless. I knew exactly when each phase was finished."</p>
+                        </div>
+                        <div class="flex items-center space-x-3 pt-4 border-t border-panda-border">
+                            <div class="w-10 h-10 rounded-full bg-panda-blue/20 border border-panda-blue flex items-center justify-center font-bold text-panda-blue">SL</div>
+                            <div>
+                                <div class="font-bold text-white text-sm">Sophia Lin</div>
+                                <div class="text-xs text-gray-400">Founder, Cyber App</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-8 rounded-2xl border border-panda-border flex flex-col justify-between">
+                        <div>
+                            <div class="flex text-panda-cyan space-x-1 mb-4 text-sm">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-gray-300 text-sm mb-6 leading-relaxed">"Top tier engineering and transparent pricing. The country auto-selector made registering super simple."</p>
+                        </div>
+                        <div class="flex items-center space-x-3 pt-4 border-t border-panda-border">
+                            <div class="w-10 h-10 rounded-full bg-panda-cyan/20 border border-panda-cyan flex items-center justify-center font-bold text-panda-cyan">DR</div>
+                            <div>
+                                <div class="font-bold text-white text-sm">David Roberts</div>
+                                <div class="text-xs text-gray-400">Director, Apex Media</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VIEW 6: CONTACT / WHATSAPP SUPPORT ================= -->
+        <section id="view-contact" class="app-view justify-start items-center py-8 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div>
+                    <div class="flex items-center space-x-2.5 mb-3">
+                        <div class="w-8 h-8 rounded-full border border-panda-cyan p-0.5 bg-panda-bg flex items-center justify-center overflow-hidden">
+                            <svg class="w-full h-full"><use href="#panda-cyber-logo"/></svg>
+                        </div>
+                        <span class="text-xs font-bold tracking-widest text-panda-cyan uppercase">Direct Contact & Support</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-white mb-4">Chat Directly With Lead Developers</h2>
+                    <p class="text-gray-300 mb-6 text-xs sm:text-sm leading-relaxed">
+                        Have custom project requirements or questions? Submit your message below to immediately launch a direct WhatsApp chat with <span class="text-panda-cyan font-semibold">+1 (917) 920-5781</span>. Your profile details (Name, Country, Phone & Email) will be automatically attached!
+                    </p>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3.5 glass-panel p-3.5 rounded-xl border border-panda-border">
+                            <i class="fa-brands fa-whatsapp text-emerald-400 text-2xl"></i>
+                            <div>
+                                <div class="text-[10px] text-gray-400">Official WhatsApp Support</div>
+                                <div class="font-bold text-white text-sm">+1 (917) 920-5781</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3.5 glass-panel p-3.5 rounded-xl border border-panda-border">
+                            <i class="fa-solid fa-shield-halved text-panda-cyan text-2xl"></i>
+                            <div>
+                                <div class="text-[10px] text-gray-400">Creation Guarantee</div>
+                                <div class="font-bold text-white text-sm">Verified Panda Developer Response</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-panda-border">
+                    <form id="contactForm" onsubmit="handleContactWhatsAppSubmit(event)" class="space-y-3.5">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Your Full Name</label>
+                            <input type="text" id="contactNameInput" required class="w-full bg-panda-bg/90 border border-panda-border rounded-xl p-2.5 text-white focus:outline-none focus:border-panda-cyan text-xs" placeholder="Alex Rivers">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Email Address</label>
+                            <input type="email" id="contactEmailInput" required class="w-full bg-panda-bg/90 border border-panda-border rounded-xl p-2.5 text-white focus:outline-none focus:border-panda-cyan text-xs" placeholder="alex@domain.com">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Project Brief / Support Query</label>
+                            <textarea id="contactMessageInput" rows="3" required class="w-full bg-panda-bg/90 border border-panda-border rounded-xl p-2.5 text-white focus:outline-none focus:border-panda-cyan text-xs" placeholder="Describe the website features or questions you have..."></textarea>
+                        </div>
+                        <button type="submit" class="cyber-btn-primary w-full py-3.5 text-xs flex items-center justify-center space-x-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>Chat on WhatsApp (+1 917 920-5781)</span>
+                        </button>
+                    </form>
+                    <div id="contactSuccessMsg" class="hidden text-center py-6">
+                        <i class="fa-solid fa-circle-check text-panda-cyan text-4xl mb-3"></i>
+                        <h4 class="font-bold text-white text-lg">Launching WhatsApp Chat...</h4>
+                        <p class="text-xs text-gray-400 mt-1">Connecting you directly to +1 (917) 920-5781 with your pre-filled inquiry.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FIXED BOTTOM TRANSPARENT LIQUID GLASS NAVIGATION BAR -->
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[96%] max-w-xl liquid-glass-nav rounded-2xl px-2 sm:px-4 py-2 flex items-center justify-between">
+        <button onclick="switchView('home')" id="nav-btn-home" class="nav-item flex flex-col items-center justify-center p-2 rounded-xl text-panda-cyan transition-all duration-300">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span class="text-[9px] sm:text-[10px] mt-1 font-semibold">Home</span>
+        </button>
+        <button onclick="switchView('builder')" id="nav-btn-builder" class="nav-item flex flex-col items-center justify-center p-2 rounded-xl text-gray-400 hover:text-panda-cyan transition-all duration-300">
+            <i class="fa-solid fa-calculator text-lg"></i>
+            <span class="text-[9px] sm:text-[10px] mt-1 font-semibold">Builder</span>
+        </button>
+        <button onclick="switchView('tracker')" id="nav-btn-tracker" class="nav-item flex flex-col items-center justify-center p-2 rounded-xl text-gray-400 hover:text-panda-cyan transition-all duration-300">
+            <i class="fa-solid fa-radar text-lg"></i>
+            <span class="text-[9px] sm:text-[10px] mt-1 font-semibold">Tracker</span>
+        </button>
+        <button onclick="switchView('portfolio')" id="nav-btn-portfolio" class="nav-item flex flex-col items-center justify-center p-2 rounded-xl text-gray-400 hover:text-panda-cyan transition-all duration-300">
+            <i class="fa-solid fa-laptop-code text-lg"></i>
+            <span class="text-[9px] sm:text-[10px] mt-1 font-semibold">Portfolio</span>
+        </button>
+        <button onclick="switchView('reviews')" id="nav-btn-reviews" class="nav-item flex flex-col items-center justify-center p-2 rounded-xl text-gray-400 hover:text-panda-cyan transition-all duration-300">
+            <i class="fa-solid fa-star text-lg"></i>
+            <span class="text-[9px] sm:text-[10px] mt-1 font-semibold">Reviews</span>
+        </button>
+        <button onclick="switchView('contact')" id="nav-btn-contact" class="nav-item flex flex-col items-center justify-center p-2 rounded-xl text-gray-400 hover:text-panda-cyan transition-all duration-300">
+            <i class="fa-brands fa-whatsapp text-lg"></i>
+            <span class="text-[9px] sm:text-[10px] mt-1 font-semibold">Support</span>
+        </button>
+    </nav>
+
+    <!-- SIGN UP GLASS MODAL -->
+    <div id="signupModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-lg rounded-3xl border-2 border-panda-cyan p-6 sm:p-8 relative max-h-[92vh] overflow-y-auto shadow-cyan-glow">
+            <button onclick="closeSignupModal()" class="absolute top-5 right-5 text-gray-400 hover:text-panda-cyan text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center space-x-3 mb-5 pb-3 border-b border-panda-border">
+                <div class="w-9 h-9 rounded-full border border-panda-cyan p-0.5 bg-panda-bg flex items-center justify-center overflow-hidden">
+                    <svg class="w-full h-full"><use href="#panda-cyber-logo"/></svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white">PANDA WEB CREATORS</h3>
+                    <p class="text-[10px] text-panda-cyan">Client Studio Sign Up</p>
+                </div>
+            </div>
+
+            <form id="signupForm" onsubmit="handleUserSignup(event)" class="space-y-3.5">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Full Name</label>
+                    <input type="text" id="authNameInput" required pattern="[A-Za-zÀ-ÿ\s]+" title="Please enter valid name characters" class="w-full bg-panda-bg/90 border border-panda-border rounded-xl p-2.5 text-white focus:outline-none focus:border-panda-cyan text-xs" placeholder="Alex Rivers">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Select Country</label>
+                    <button type="button" onclick="openCountryPickerModal()" id="countryPickerTrigger" class="w-full bg-panda-bg/90 border border-panda-border rounded-xl p-2.5 text-white text-left text-xs flex justify-between items-center focus:border-panda-cyan">
+                        <span id="selectedCountryLabel" class="text-gray-400">Click to choose country...</span>
+                        <i class="fa-solid fa-globe text-panda-cyan"></i>
+                    </button>
+                    <input type="hidden" id="selectedCountryName" required>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Phone Number (Valid Digits Only)</label>
+                    <div class="flex space-x-2">
+                        <input type="text" id="phoneCodeInput" readonly class="w-20 bg-panda-border/60 border border-panda-border rounded-xl p-2.5 text-panda-cyan font-mono text-center text-xs font-bold" value="+1">
+                        <input type="tel" id="phoneNumberInput" required pattern="[0-9]{7,15}" title="Enter valid phone digits (7 to 15 digits)" placeholder="8005550199" class="flex-1 bg-panda-bg/90 border border-panda-border rounded-xl p-2.5 text-white focus:outline-none focus:border-panda-cyan text-xs font-mono">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Email Address</label>
+                    <input type="email" id="authEmailInput" required class="w-full bg-panda-bg/90 border border-panda-border rounded-xl p-2.5 text-white focus:outline-none focus:border-panda-cyan text-xs" placeholder="alex@domain.com">
+                </div>
+
+                <button type="submit" class="cyber-btn-primary w-full py-3.5 text-xs mt-3 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>Sign Up & Access Studio</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TRANSPARENT LIQUID GLASS COUNTRY SELECTOR MODAL -->
+    <div id="countryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md rounded-3xl border-2 border-panda-cyan p-6 relative max-h-[85vh] flex flex-col shadow-cyan-glow">
+            <div class="flex justify-between items-center mb-4 pb-3 border-b border-panda-border">
+                <h4 class="text-lg font-bold text-white"><i class="fa-solid fa-globe text-panda-cyan mr-2"></i>Select Country</h4>
+                <button onclick="closeCountryPickerModal()" class="text-gray-400 hover:text-panda-cyan text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="mb-4">
+                <input type="text" id="countrySearchInput" oninput="filterCountryList()" placeholder="Search country name or code..." class="w-full bg-panda-bg/90 border border-panda-border rounded-xl p-3 text-white focus:outline-none focus:border-panda-cyan text-sm">
+            </div>
+
+            <div id="countryListContainer" class="overflow-y-auto space-y-2 pr-1 flex-1"></div>
+        </div>
+    </div>
+
+    <!-- CHECKOUT MODAL GATEWAY (GIFT CARD ONLY) -->
+    <div id="checkoutModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-xl rounded-3xl border-2 border-panda-cyan p-6 sm:p-8 relative max-h-[90vh] overflow-y-auto shadow-cyan-glow">
+            <button onclick="closeCheckout()" class="absolute top-5 right-5 text-gray-400 hover:text-panda-cyan text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center space-x-3 mb-5 pb-3 border-b border-panda-border">
+                <div class="w-9 h-9 rounded-full border border-panda-cyan p-0.5 bg-panda-bg flex items-center justify-center overflow-hidden">
+                    <svg class="w-full h-full"><use href="#panda-cyber-logo"/></svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white">PANDA WEB CREATORS Gateway</h3>
+                    <p class="text-[10px] text-panda-cyan">Secure Gift Card Payment to WhatsApp (+1 917 920-5781)</p>
+                </div>
+            </div>
+
+            <div class="bg-panda-bg/90 p-4 rounded-2xl mb-6 border border-panda-border">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-xs text-gray-400">Selected Creation Tier:</span>
+                    <span id="modalPlanName" class="font-bold text-white text-sm">Panda Pro Business</span>
+                </div>
+                <div class="flex justify-between items-center text-lg font-black text-white pt-2 border-t border-panda-border/50">
+                    <span>Total Payment Required:</span>
+                    <span id="modalPlanPrice" class="text-panda-cyan neon-text-glow">$499 USD</span>
+                </div>
+            </div>
+
+            <!-- Single Payment Method Notice -->
+            <div class="mb-6 p-4 rounded-xl border border-panda-cyan/40 bg-panda-cyan/10 flex items-start space-x-3">
+                <i class="fa-solid fa-gift text-panda-cyan text-xl mt-0.5"></i>
+                <div class="text-xs text-gray-300">
+                    <strong class="text-white block mb-1">Gift Card Payment Method:</strong>
+                    Please purchase a valid gift card matching your project total and input your sign-in details along with your gift card info below. Upon submitting, your code and details will be securely sent to WhatsApp (<span class="text-panda-cyan font-mono">+1 917 920-5781</span>).
+                </div>
+            </div>
+
+            <form id="checkoutForm" onsubmit="processGiftCardPayment(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Your Full Name (Sign-in Detail)</label>
+                    <input type="text" id="checkoutNameInput" required pattern="[A-Za-zÀ-ÿ\s]+" title="Valid name required" class="w-full bg-panda-bg border border-panda-border rounded-xl p-3 text-white focus:outline-none focus:border-panda-cyan text-sm" placeholder="Alex Rivers">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Email Address (Sign-in Detail)</label>
+                    <input type="email" id="checkoutEmailInput" required class="w-full bg-panda-bg border border-panda-border rounded-xl p-3 text-white focus:outline-none focus:border-panda-cyan text-sm" placeholder="alex@domain.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Phone Number (For Admin & WhatsApp Verification)</label>
+                    <input type="tel" id="checkoutPhoneInput" required class="w-full bg-panda-bg border border-panda-border rounded-xl p-3 text-white focus:outline-none focus:border-panda-cyan text-sm font-mono" placeholder="+1 8005550199">
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Select Gift Card Brand</label>
+                        <select id="giftCardBrand" required class="w-full bg-panda-bg border border-panda-border rounded-xl p-3 text-white focus:outline-none focus:border-panda-cyan text-sm font-semibold">
+                            <option value="" disabled selected>Choose gift card type...</option>
+                            <option value="Apple Gift Card">Apple Gift Card</option>
+                            <option value="Google Play Gift Card">Google Play Gift Card</option>
+                            <option value="Amazon Gift Card">Amazon Gift Card</option>
+                            <option value="Steam Gift Card">Steam Gift Card</option>
+                            <option value="Visa / Mastercard Prepaid Card">Visa / Mastercard Prepaid Card</option>
+                            <option value="Other Store Gift Card">Other Store Gift Card</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Gift Card PIN / Voucher Code</label>
+                        <input type="text" id="giftCardCodeInput" required pattern="[A-Za-z0-9\-]{8,30}" title="Please enter a valid gift card code (8 to 30 characters/digits)" placeholder="Enter valid gift card code..." class="w-full bg-panda-bg border border-panda-border rounded-xl p-3 text-white focus:outline-none focus:border-panda-cyan text-sm font-mono tracking-widest uppercase">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Gift Card Value ($ USD)</label>
+                            <input type="number" id="giftCardAmountInput" required min="10" max="10000" step="1" placeholder="499" class="w-full bg-panda-bg border border-panda-border rounded-xl p-3 text-white focus:outline-none focus:border-panda-cyan text-sm font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Security PIN / CVV (If Any)</label>
+                            <input type="text" id="giftCardPinInput" pattern="[0-9]{3,6}" title="Valid numeric digits only" placeholder="Optional digits" class="w-full bg-panda-bg border border-panda-border rounded-xl p-3 text-white focus:outline-none focus:border-panda-cyan text-sm font-mono">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="paySubmitBtn" class="cyber-btn-primary w-full py-3.5 text-xs mt-3 flex items-center justify-center space-x-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Submit & Send Details to WhatsApp (+1 917 920-5781)</span>
+                </button>
+            </form>
+
+            <div id="paymentSuccess" class="hidden text-center py-5">
+                <div class="w-14 h-14 rounded-full bg-panda-cyan/20 border-2 border-panda-cyan text-panda-cyan flex items-center justify-center mx-auto mb-3 text-xl animate-bounce">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-1">Gift Card Details Submitted!</h3>
+                <p class="text-xs text-gray-300 mb-5">Redirecting securely to WhatsApp while your order is registered with the backend server...</p>
+                <div class="glass-panel p-3.5 rounded-xl text-left border border-panda-cyan/40 mb-5">
+                    <div class="text-[10px] text-gray-400">Your Unique Order Tracking ID:</div>
+                    <div id="generatedOrderID" class="text-lg font-black text-panda-cyan font-mono mt-0.5">PANDA-8291</div>
+                </div>
+                <button onclick="copyAndTrackOrder()" class="cyber-btn-primary w-full py-3 text-xs">
+                    Track Build Status Live
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        const API_BASE = window.location.origin;
+
+        const countriesList = [
+            { name: "Afghanistan", code: "+93", flag: "🇦🇫" },
+            { name: "Albania", code: "+355", flag: "🇦🇱" },
+            { name: "Algeria", code: "+213", flag: "🇩🇿" },
+            { name: "Andorra", code: "+376", flag: "🇦🇩" },
+            { name: "Angola", code: "+244", flag: "🇦🇴" },
+            { name: "Argentina", code: "+54", flag: "🇦🇷" },
+            { name: "Armenia", code: "+374", flag: "🇦🇲" },
+            { name: "Australia", code: "+61", flag: "🇦🇺" },
+            { name: "Austria", code: "+43", flag: "🇦🇹" },
+            { name: "Azerbaijan", code: "+994", flag: "🇦🇿" },
+            { name: "Bahrain", code: "+973", flag: "🇧🇭" },
+            { name: "Bangladesh", code: "+880", flag: "🇧🇩" },
+            { name: "Belgium", code: "+32", flag: "🇧🇪" },
+            { name: "Brazil", code: "+55", flag: "🇧🇷" },
+            { name: "Cameroon", code: "+237", flag: "🇨🇲" },
+            { name: "Canada", code: "+1", flag: "🇨🇦" },
+            { name: "Chile", code: "+56", flag: "🇨🇱" },
+            { name: "China", code: "+86", flag: "🇨🇳" },
+            { name: "Colombia", code: "+57", flag: "🇨🇴" },
+            { name: "Egypt", code: "+20", flag: "🇪🇬" },
+            { name: "France", code: "+33", flag: "🇫🇷" },
+            { name: "Germany", code: "+49", flag: "🇩🇪" },
+            { name: "Ghana", code: "+233", flag: "🇬🇭" },
+            { name: "India", code: "+91", flag: "🇮🇳" },
+            { name: "Indonesia", code: "+62", flag: "🇮🇩" },
+            { name: "Iraq", code: "+964", flag: "🇮🇶" },
+            { name: "Ireland", code: "+353", flag: "🇮🇪" },
+            { name: "Italy", code: "+39", flag: "🇮🇹" },
+            { name: "Japan", code: "+81", flag: "🇯🇵" },
+            { name: "Kenya", code: "+254", flag: "🇰🇪" },
+            { name: "Kuwait", code: "+965", flag: "🇰🇼" },
+            { name: "Malaysia", code: "+60", flag: "🇲🇾" },
+            { name: "Mexico", code: "+52", flag: "🇲🇽" },
+            { name: "Morocco", code: "+212", flag: "🇲🇦" },
+            { name: "Netherlands", code: "+31", flag: "🇳🇱" },
+            { name: "New Zealand", code: "+64", flag: "🇳🇿" },
+            { name: "Nigeria", code: "+234", flag: "🇳🇬" },
+            { name: "Pakistan", code: "+92", flag: "🇵🇰" },
+            { name: "Philippines", code: "+63", flag: "🇵🇭" },
+            { name: "Poland", code: "+48", flag: "🇵🇱" },
+            { name: "Qatar", code: "+974", flag: "🇶🇦" },
+            { name: "Saudi Arabia", code: "+966", flag: "🇸🇦" },
+            { name: "Singapore", code: "+65", flag: "🇸🇬" },
+            { name: "South Africa", code: "+27", flag: "🇿🇦" },
+            { name: "Spain", code: "+34", flag: "🇪🇸" },
+            { name: "Sweden", code: "+46", flag: "🇸🇪" },
+            { name: "Switzerland", code: "+41", flag: "🇨🇭" },
+            { name: "Turkey", code: "+90", flag: "🇹🇷" },
+            { name: "United Arab Emirates", code: "+971", flag: "🇦🇪" },
+            { name: "United Kingdom", code: "+44", flag: "🇬🇧" },
+            { name: "United States", code: "+1", flag: "🇺🇸" }
+        ];
+
+        const archetypes = [
+            { id: 'landing', name: 'Landing Page / Portfolio', price: 199, timeline: '2-3 Days', icon: 'fa-user-astronaut' },
+            { id: 'business', name: 'Business Website', price: 299, timeline: '3-5 Days', icon: 'fa-building' },
+            { id: 'ecommerce', name: 'E-Commerce Store', price: 599, timeline: '5-8 Days', icon: 'fa-cart-shopping' },
+            { id: 'custom', name: 'Custom SaaS App', price: 899, timeline: '7-12 Days', icon: 'fa-code' }
+        ];
+
+        const featureAddons = [
+            { id: 'seo', name: 'Advanced SEO Optimization', price: 80, icon: 'fa-chart-line' },
+            { id: 'cms', name: 'Admin CMS Dashboard', price: 150, icon: 'fa-sliders' },
+            { id: 'payment', name: 'Payment Gateway Integration', price: 100, icon: 'fa-credit-card' },
+            { id: 'ai', name: 'AI Chatbot Integration', price: 180, icon: 'fa-robot' },
+            { id: 'domain', name: 'Domain + SSL Hosting Setup', price: 40, icon: 'fa-shield-halved' },
+            { id: 'support', name: '24/7 Developer Priority SLA', price: 120, icon: 'fa-headset' }
+        ];
+
+        const hostingTiers = [
+            { id: 'standard', name: 'Standard Host', price: 15 },
+            { id: 'turbo', name: 'Turbo Cloud CDN', price: 35 },
+            { id: 'dedicated', name: 'Dedicated Cluster', price: 75 }
+        ];
+
+        const portfolioItems = [
+            { title: 'Neon Arcade Store', category: 'E-Commerce Platform', img: 'https://placehold.co/600x400/0b1329/00f0ff?text=Neon+Arcade+Store' },
+            { title: 'CyberTech SaaS', category: 'Web Application', img: 'https://placehold.co/600x400/0b1329/0077ff?text=CyberTech+SaaS' },
+            { title: 'Apex Horizon Portal', category: 'Corporate Agency', img: 'https://placehold.co/600x400/0b1329/00f0ff?text=Apex+Agency+Portal' }
+        ];
+
+        // State variables restored from LocalStorage if available
+        let selectedArchetype = localStorage.getItem('panda_builder_arch') 
+            ? JSON.parse(localStorage.getItem('panda_builder_arch')) 
+            : archetypes[1];
+
+        let selectedFeatures = localStorage.getItem('panda_builder_features') 
+            ? JSON.parse(localStorage.getItem('panda_builder_features')) 
+            : [];
+
+        let selectedHosting = localStorage.getItem('panda_builder_hosting') 
+            ? JSON.parse(localStorage.getItem('panda_builder_hosting')) 
+            : hostingTiers[0];
+
+        let currentCheckoutPrice = 299;
+        let currentCheckoutPlan = "Business Website";
+        let lastGeneratedID = localStorage.getItem('panda_last_order_id') || "PANDA-8291";
+        let currentUser = null;
+        let currentActiveView = localStorage.getItem('panda_active_view') || 'home';
+
+        window.onload = function() {
+            renderCountryList(countriesList);
+            renderBuilderControls();
+            renderPortfolio();
+            updateBuilderSummary();
+            loadStoredUser();
+            loadUserSavedOrders();
+
+            // Restore last active view tab
+            switchView(currentActiveView, false);
+
+            // Restore last searched tracker ID if exists
+            const savedTrackerId = localStorage.getItem('panda_saved_tracker_id');
+            if (savedTrackerId) {
+                document.getElementById('trackerInput').value = savedTrackerId;
+                checkProjectStatus();
+            }
+
+            // Initialize random popup trigger interval
+            scheduleRandomUpdatePopup();
+
+            setTimeout(() => {
+                if (!currentUser) {
+                    openSignupModal();
+                }
+            }, 400);
+        };
+
+        function scheduleRandomUpdatePopup() {
+            const randomTime = Math.floor(Math.random() * 25000) + 25000;
+            setTimeout(() => {
+                showUpdatePopup();
+                scheduleRandomUpdatePopup();
+            }, randomTime);
+        }
+
+        function showUpdatePopup() {
+            const popup = document.getElementById('updatePopup');
+            popup.classList.remove('hidden');
+            setTimeout(() => {
+                popup.classList.remove('translate-y-10', 'opacity-0');
+            }, 50);
+        }
+
+        function closeUpdatePopup() {
+            const popup = document.getElementById('updatePopup');
+            popup.classList.add('translate-y-10', 'opacity-0');
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 500);
+        }
+
+        function renderCountryList(list) {
+            const container = document.getElementById('countryListContainer');
+            container.innerHTML = list.map(c => `
+                <div onclick="selectCountry('${c.name}', '${c.code}')" class="p-3 rounded-xl border border-panda-border bg-panda-bg/60 hover:border-panda-cyan hover:bg-panda-cyan/10 cursor-pointer flex items-center justify-between text-sm transition-all">
+                    <span class="text-white font-medium">${c.flag} ${c.name}</span>
+                    <span class="text-panda-cyan font-mono font-bold">${c.code}</span>
+                </div>
+            `).join('');
+        }
+
+        function filterCountryList() {
+            const query = document.getElementById('countrySearchInput').value.toLowerCase();
+            const filtered = countriesList.filter(c => c.name.toLowerCase().includes(query) || c.code.includes(query));
+            renderCountryList(filtered);
+        }
+
+        function openCountryPickerModal() {
+            document.getElementById('countryModal').classList.remove('hidden');
+        }
+
+        function closeCountryPickerModal() {
+            document.getElementById('countryModal').classList.add('hidden');
+        }
+
+        function selectCountry(name, code) {
+            document.getElementById('selectedCountryLabel').innerText = name;
+            document.getElementById('selectedCountryLabel').classList.remove('text-gray-400');
+            document.getElementById('selectedCountryLabel').classList.add('text-white', 'font-bold');
+            document.getElementById('selectedCountryName').value = name;
+            document.getElementById('phoneCodeInput').value = code;
+            closeCountryPickerModal();
+        }
+
+        function openSignupModal() {
+            document.getElementById('signupModal').classList.remove('hidden');
+        }
+
+        function closeSignupModal() {
+            if (!currentUser) {
+                const name = document.getElementById('authNameInput').value.trim();
+                if (!name) return;
+            }
+            document.getElementById('signupModal').classList.add('hidden');
+        }
+
+        function loadStoredUser() {
+            const saved = localStorage.getItem('panda_user_profile');
+            if (saved) {
+                try {
+                    currentUser = JSON.parse(saved);
+                    document.getElementById('badgeUserName').innerText = currentUser.name.split(' ')[0];
+                    document.getElementById('userBadge').classList.remove('hidden');
+                    document.getElementById('authBtnLabel').innerText = 'Account Active';
+
+                    document.getElementById('checkoutNameInput').value = currentUser.name;
+                    document.getElementById('checkoutEmailInput').value = currentUser.email;
+                    document.getElementById('checkoutPhoneInput').value = currentUser.phone;
+                    document.getElementById('contactNameInput').value = currentUser.name;
+                    document.getElementById('contactEmailInput').value = currentUser.email;
+                } catch(e) {}
+            }
+        }
+
+        function handleUserSignup(e) {
+            e.preventDefault();
+            const name = document.getElementById('authNameInput').value.trim();
+            const country = document.getElementById('selectedCountryName').value || 'Not Specified';
+            const phoneCode = document.getElementById('phoneCodeInput').value;
+            const phoneNum = document.getElementById('phoneNumberInput').value.trim();
+            const email = document.getElementById('authEmailInput').value.trim();
+
+            currentUser = { name, country, phone: `${phoneCode} ${phoneNum}`, email };
+            localStorage.setItem('panda_user_profile', JSON.stringify(currentUser));
+
+            document.getElementById('badgeUserName').innerText = name.split(' ')[0];
+            document.getElementById('userBadge').classList.remove('hidden');
+            document.getElementById('authBtnLabel').innerText = 'Account Active';
+
+            document.getElementById('checkoutNameInput').value = name;
+            document.getElementById('checkoutEmailInput').value = email;
+            document.getElementById('checkoutPhoneInput').value = `${phoneCode} ${phoneNum}`;
+            document.getElementById('contactNameInput').value = name;
+            document.getElementById('contactEmailInput').value = email;
+
+            closeSignupModal();
+        }
+
+        function handleContactWhatsAppSubmit(e) {
+            e.preventDefault();
+            
+            const message = document.getElementById('contactMessageInput').value.trim();
+            const name = currentUser ? currentUser.name : document.getElementById('contactNameInput').value.trim();
+            const email = currentUser ? currentUser.email : document.getElementById('contactEmailInput').value.trim();
+            const country = currentUser ? currentUser.country : 'Unspecified';
+            const phone = currentUser ? currentUser.phone : 'Unspecified';
+
+            const formattedMessage = 
+                `*PANDA WEB CREATORS - NEW PROJECT INQUIRY*\n` +
+                `------------------------------------\n` +
+                `👤 *Name:* ${name}\n` +
+                `📧 *Email:* ${email}\n` +
+                `🌐 *Country:* ${country}\n` +
+                `📞 *Phone:* ${phone}\n\n` +
+                `💬 *Project Brief / Message:*\n${message}`;
+
+            const targetWhatsAppNumber = "19179205781";
+            const whatsappUrl = `https://wa.me/${targetWhatsAppNumber}?text=${encodeURIComponent(formattedMessage)}`;
+
+            document.getElementById('contactForm').classList.add('hidden');
+            document.getElementById('contactSuccessMsg').classList.remove('hidden');
+
+            setTimeout(() => {
+                window.open(whatsappUrl, '_blank');
+            }, 600);
+        }
+
+        function switchView(viewName, saveState = true) {
+            currentActiveView = viewName;
+            if (saveState) {
+                localStorage.setItem('panda_active_view', viewName);
+            }
+
+            document.querySelectorAll('.app-view').forEach(view => {
+                view.classList.remove('active');
+            });
+
+            const target = document.getElementById(`view-${viewName}`);
+            if (target) {
+                target.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
+
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.classList.remove('text-panda-cyan');
+                btn.classList.add('text-gray-400');
+            });
+
+            const activeBtn = document.getElementById(`nav-btn-${viewName}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-gray-400');
+                activeBtn.classList.add('text-panda-cyan');
+            }
+        }
+
+        function renderBuilderControls() {
+            const archContainer = document.getElementById('archetypeContainer');
+            archContainer.innerHTML = archetypes.map(a => `
+                <div onclick="selectArchetype('${a.id}')" id="arch-${a.id}" class="p-4 rounded-xl border border-panda-border cursor-pointer transition-all duration-300 flex items-center space-x-4 ${a.id === selectedArchetype.id ? 'border-panda-cyan bg-panda-cyan/10 text-white shadow-cyan-glow' : 'hover:border-panda-cyan/40 text-gray-400'}">
+                    <i class="fa-solid ${a.icon} text-2xl text-panda-cyan"></i>
+                    <div>
+                        <h4 class="font-bold text-sm text-white">${a.name}</h4>
+                        <span class="text-xs font-semibold text-panda-cyan">+$${a.price}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            const featContainer = document.getElementById('featuresContainer');
+            featContainer.innerHTML = featureAddons.map(f => {
+                const isSelected = selectedFeatures.includes(f.id);
+                return `
+                    <div onclick="toggleFeature('${f.id}')" id="feat-${f.id}" class="p-4 rounded-xl border ${isSelected ? 'border-panda-cyan bg-panda-cyan/10 shadow-cyan-glow' : 'border-panda-border'} cursor-pointer transition-all duration-300 flex items-center justify-between hover:border-panda-cyan/40">
+                        <div class="flex items-center space-x-3">
+                            <i class="fa-solid ${f.icon} text-panda-cyan text-base"></i>
+                            <span class="text-sm font-semibold text-white">${f.name}</span>
+                        </div>
+                        <span class="text-xs font-bold text-panda-cyan">+$${f.price}</span>
+                    </div>
+                `;
+            }).join('');
+
+            const hostContainer = document.getElementById('hostingContainer');
+            hostContainer.innerHTML = hostingTiers.map(h => `
+                <div onclick="selectHosting('${h.id}')" id="host-${h.id}" class="p-4 rounded-xl border border-panda-border cursor-pointer transition-all duration-300 text-center ${h.id === selectedHosting.id ? 'border-panda-cyan bg-panda-cyan/10 text-white shadow-cyan-glow' : 'hover:border-panda-cyan/40 text-gray-400'}">
+                    <h4 class="font-bold text-sm text-white">${h.name}</h4>
+                    <span class="text-xs font-semibold text-panda-blue">+$${h.price}/mo</span>
+                </div>
+            `).join('');
+        }
+
+        function selectArchetype(id) {
+            selectedArchetype = archetypes.find(a => a.id === id);
+            localStorage.setItem('panda_builder_arch', JSON.stringify(selectedArchetype));
+            renderBuilderControls();
+            updateBuilderSummary();
+        }
+
+        function toggleFeature(id) {
+            const index = selectedFeatures.indexOf(id);
+            if (index > -1) {
+                selectedFeatures.splice(index, 1);
+            } else {
+                selectedFeatures.push(id);
+            }
+
+            localStorage.setItem('panda_builder_features', JSON.stringify(selectedFeatures));
+
+            featureAddons.forEach(f => {
+                const el = document.getElementById(`feat-${f.id}`);
+                if (selectedFeatures.includes(f.id)) {
+                    el.classList.add('border-panda-cyan', 'bg-panda-cyan/10', 'shadow-cyan-glow');
+                } else {
+                    el.classList.remove('border-panda-cyan', 'bg-panda-cyan/10', 'shadow-cyan-glow');
+                }
+            });
+
+            updateBuilderSummary();
+        }
+
+        function selectHosting(id) {
+            selectedHosting = hostingTiers.find(h => h.id === id);
+            localStorage.setItem('panda_builder_hosting', JSON.stringify(selectedHosting));
+            renderBuilderControls();
+            updateBuilderSummary();
+        }
+
+        function calculateTotalCost() {
+            let total = selectedArchetype.price;
+            selectedFeatures.forEach(fId => {
+                const feat = featureAddons.find(f => f.id === fId);
+                if (feat) total += feat.price;
+            });
+            total += selectedHosting.price;
+            return total;
+        }
+
+        function updateBuilderSummary() {
+            const total = calculateTotalCost();
+            document.getElementById('totalPriceDisplay').innerText = total;
+            document.getElementById('summaryArchetype').innerText = selectedArchetype.name;
+            document.getElementById('summaryFeaturesCount').innerText = `${selectedFeatures.length} items`;
+            document.getElementById('summaryHosting').innerText = selectedHosting.name;
+            document.getElementById('summaryTimeline').innerText = selectedArchetype.timeline;
+        }
+
+        function renderPortfolio() {
+            const grid = document.getElementById('portfolioGrid');
+            grid.innerHTML = portfolioItems.map(item => `
+                <div class="glass-panel glass-card-hover rounded-2xl overflow-hidden border border-panda-border group">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <span class="text-[10px] font-bold tracking-widest text-panda-cyan uppercase">${item.category}</span>
+                        <h4 class="text-xl font-bold text-white mt-1">${item.title}</h4>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function launchCheckout(planName, price) {
+            currentCheckoutPlan = planName;
+            currentCheckoutPrice = price;
+
+            document.getElementById('modalPlanName').innerText = planName;
+            document.getElementById('modalPlanPrice').innerText = `$${price} USD`;
+            document.getElementById('giftCardAmountInput').value = price;
+            document.getElementById('checkoutModal').classList.remove('hidden');
+            document.getElementById('checkoutForm').classList.remove('hidden');
+            document.getElementById('paymentSuccess').classList.add('hidden');
+        }
+
+        function checkoutCustomProject() {
+            const total = calculateTotalCost();
+            launchCheckout(`Custom Web: ${selectedArchetype.name}`, total);
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').classList.add('hidden');
+        }
+
+        async function processGiftCardPayment(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById('paySubmitBtn');
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Registering Payment...`;
+            submitBtn.disabled = true;
+
+            const name = document.getElementById('checkoutNameInput').value.trim();
+            const email = document.getElementById('checkoutEmailInput').value.trim();
+            const phone = document.getElementById('checkoutPhoneInput').value.trim();
+            const brand = document.getElementById('giftCardBrand').value;
+            const code = document.getElementById('giftCardCodeInput').value.trim();
+            const amount = document.getElementById('giftCardAmountInput').value.trim();
+            const pin = document.getElementById('giftCardPinInput').value.trim() || 'N/A';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/payments/submit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        phone,
+                        plan: currentCheckoutPlan,
+                        price: currentCheckoutPrice,
+                        brand,
+                        code,
+                        pin
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    lastGeneratedID = data.orderId;
+                    localStorage.setItem('panda_last_order_id', lastGeneratedID);
+
+                    // Save order locally
+                    saveUserOrderLocally({
+                        id: lastGeneratedID,
+                        plan: currentCheckoutPlan,
+                        price: currentCheckoutPrice,
+                        date: new Date().toLocaleDateString()
+                    });
+
+                    const whatsappMessage = 
+                        `*PANDA WEB CREATORS - GIFT CARD PAYMENT*\n` +
+                        `------------------------------------\n` +
+                        `🔖 *Order ID:* ${lastGeneratedID}\n` +
+                        `📦 *Plan:* ${currentCheckoutPlan} ($${currentCheckoutPrice} USD)\n` +
+                        `👤 *Client:* ${name} (${email})\n` +
+                        `📞 *Phone:* ${phone}\n` +
+                        `🎁 *Card Brand:* ${brand}\n` +
+                        `🔑 *Code:* \`${code}\``;
+
+                    const whatsappUrl = `https://wa.me/19179205781?text=${encodeURIComponent(whatsappMessage)}`;
+
+                    submitBtn.innerHTML = `<i class="fa-brands fa-whatsapp"></i><span>Submitted Successfully!</span>`;
+                    submitBtn.disabled = false;
+
+                    document.getElementById('generatedOrderID').innerText = lastGeneratedID;
+                    document.getElementById('checkoutForm').classList.add('hidden');
+                    document.getElementById('paymentSuccess').classList.remove('hidden');
+
+                    setTimeout(() => {
+                        window.open(whatsappUrl, '_blank');
+                    }, 800);
+                } else {
+                    alert('Submission failed. Please check server connection.');
+                    submitBtn.innerHTML = `<span>Submit & Send Details to WhatsApp (+1 917 920-5781)</span>`;
+                    submitBtn.disabled = false;
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Could not connect to payment server. Make sure server.js is running.');
+                submitBtn.innerHTML = `<span>Submit & Send Details to WhatsApp (+1 917 920-5781)</span>`;
+                submitBtn.disabled = false;
+            }
+        }
+
+        function saveUserOrderLocally(orderObj) {
+            let userOrders = JSON.parse(localStorage.getItem('panda_user_orders') || '[]');
+            let hiddenOrders = JSON.parse(localStorage.getItem('panda_hidden_orders') || '[]');
+            
+            // Do not re-add if previously canceled/deleted
+            if (hiddenOrders.includes(orderObj.id)) return;
+
+            if (!userOrders.some(o => o.id === orderObj.id)) {
+                userOrders.unshift(orderObj);
+                localStorage.setItem('panda_user_orders', JSON.stringify(userOrders));
+            }
+            loadUserSavedOrders();
+        }
+
+        async function loadUserSavedOrders() {
+            const container = document.getElementById('savedOrdersContainer');
+            let userOrders = JSON.parse(localStorage.getItem('panda_user_orders') || '[]');
+            let hiddenOrders = JSON.parse(localStorage.getItem('panda_hidden_orders') || '[]');
+
+            // Filter out any explicitly hidden/canceled orders
+            userOrders = userOrders.filter(o => !hiddenOrders.includes(o.id));
+
+            if (userOrders.length === 0) {
+                container.innerHTML = `
+                    <div class="p-4 rounded-xl border border-panda-border bg-panda-bg/40 text-center text-gray-500 text-xs col-span-full">
+                        No saved orders found or all orders completed/canceled.
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                // Fetch server status to check if any saved orders have reached 'completed' stage
+                const res = await fetch(`${API_BASE}/api/admin/payments`);
+                const payments = await res.json();
+
+                // Automatically remove completed orders from user saved orders
+                let activeOrders = [];
+                for (let o of userOrders) {
+                    const serverOrder = payments.find(p => p.id.toLowerCase() === o.id.toLowerCase());
+                    const isCompleted = serverOrder && serverOrder.stage === 'completed';
+
+                    if (isCompleted) {
+                        // Mark as hidden/disappeared permanently
+                        hiddenOrders.push(o.id);
+                    } else {
+                        activeOrders.push(o);
+                    }
+                }
+                localStorage.setItem('panda_hidden_orders', JSON.stringify(hiddenOrders));
+                localStorage.setItem('panda_user_orders', JSON.stringify(activeOrders));
+                userOrders = activeOrders;
+
+                if (userOrders.length === 0) {
+                    container.innerHTML = `
+                        <div class="p-4 rounded-xl border border-panda-border bg-panda-bg/40 text-center text-gray-500 text-xs col-span-full">
+                            No active saved orders. Completed orders have automatically disappeared.
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = userOrders.map(o => `
+                    <div class="p-3.5 rounded-xl border border-panda-border bg-panda-bg/60 hover:border-panda-cyan transition flex items-center justify-between">
+                        <div onclick="selectSavedOrder('${o.id}')" class="cursor-pointer flex-1 pr-2">
+                            <div class="font-bold text-white text-xs">${o.plan}</div>
+                            <div class="text-panda-cyan font-mono text-[11px]">${o.id} <span class="text-gray-400 font-sans text-[10px] ml-1">($${o.price})</span></div>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <button onclick="selectSavedOrder('${o.id}')" class="px-2.5 py-1 bg-panda-cyan/10 text-panda-cyan border border-panda-cyan/30 rounded-lg text-[10px] font-bold hover:bg-panda-cyan hover:text-black transition">
+                                Track
+                            </button>
+                            <button onclick="cancelUserOrder('${o.id}')" class="px-2 py-1 bg-rose-500/10 text-rose-400 border border-rose-500/30 rounded-lg text-[10px] font-bold hover:bg-rose-500 hover:text-white transition" title="Cancel Order">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (err) {
+                // Fallback render if server is unreachable
+                container.innerHTML = userOrders.map(o => `
+                    <div class="p-3.5 rounded-xl border border-panda-border bg-panda-bg/60 hover:border-panda-cyan transition flex items-center justify-between">
+                        <div onclick="selectSavedOrder('${o.id}')" class="cursor-pointer flex-1 pr-2">
+                            <div class="font-bold text-white text-xs">${o.plan}</div>
+                            <div class="text-panda-cyan font-mono text-[11px]">${o.id}</div>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <button onclick="selectSavedOrder('${o.id}')" class="px-2.5 py-1 bg-panda-cyan/10 text-panda-cyan border border-panda-cyan/30 rounded-lg text-[10px] font-bold hover:bg-panda-cyan hover:text-black transition">
+                                Track
+                            </button>
+                            <button onclick="cancelUserOrder('${o.id}')" class="px-2 py-1 bg-rose-500/10 text-rose-400 border border-rose-500/30 rounded-lg text-[10px] font-bold hover:bg-rose-500 hover:text-white transition" title="Cancel Order">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function cancelUserOrder(orderId) {
+            if (!confirm(`Are you sure you want to cancel and delete order ${orderId}?`)) return;
+
+            let userOrders = JSON.parse(localStorage.getItem('panda_user_orders') || '[]');
+            let hiddenOrders = JSON.parse(localStorage.getItem('panda_hidden_orders') || '[]');
+
+            userOrders = userOrders.filter(o => o.id !== orderId);
+            if (!hiddenOrders.includes(orderId)) {
+                hiddenOrders.push(orderId);
+            }
+
+            localStorage.setItem('panda_user_orders', JSON.stringify(userOrders));
+            localStorage.setItem('panda_hidden_orders', JSON.stringify(hiddenOrders));
+
+            loadUserSavedOrders();
+
+            // Clear tracker result if currently viewing canceled order
+            const currentTracked = document.getElementById('trackerInput').value.trim();
+            if (currentTracked.toLowerCase() === orderId.toLowerCase()) {
+                document.getElementById('trackerInput').value = '';
+                document.getElementById('trackerResult').classList.add('hidden');
+                localStorage.removeItem('panda_saved_tracker_id');
+            }
+        }
+
+        function selectSavedOrder(orderId) {
+            document.getElementById('trackerInput').value = orderId;
+            checkProjectStatus();
+            window.scrollTo({ top: 300, behavior: 'smooth' });
+        }
+
+        function copyAndTrackOrder() {
+            document.getElementById('trackerInput').value = lastGeneratedID;
+            localStorage.setItem('panda_saved_tracker_id', lastGeneratedID);
+            
+            saveUserOrderLocally({
+                id: lastGeneratedID,
+                plan: currentCheckoutPlan,
+                price: currentCheckoutPrice,
+                date: new Date().toLocaleDateString()
+            });
+
+            closeCheckout();
+            switchView('tracker');
+            checkProjectStatus();
+        }
+
+        async function checkProjectStatus() {
+            const inputVal = document.getElementById('trackerInput').value.trim();
+            const resultBox = document.getElementById('trackerResult');
+            if (!inputVal) return;
+
+            localStorage.setItem('panda_saved_tracker_id', inputVal);
+
+            saveUserOrderLocally({
+                id: inputVal.toUpperCase(),
+                plan: 'Custom Web Order',
+                price: '---',
+                date: new Date().toLocaleDateString()
+            });
+
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/payments`);
+                const payments = await res.json();
+                const order = payments.find(p => p.id.toLowerCase() === inputVal.toLowerCase());
+
+                resultBox.classList.remove('hidden');
+                document.getElementById('trackerOrderID').innerText = `ID: ${inputVal.toUpperCase()}`;
+
+                const progressBar = document.getElementById('progressBar');
+                const badge = document.getElementById('trackerStatusBadge');
+                const step2Box = document.getElementById('step2Box');
+                const step2Text = document.getElementById('step2Text');
+                const step3Box = document.getElementById('step3Box');
+                const step3Text = document.getElementById('step3Text');
+                const step4Box = document.getElementById('step4Box');
+                const step4Text = document.getElementById('step4Text');
+
+                if (order) {
+                    document.getElementById('trackerProjectTitle').innerText = `Project: ${order.plan}`;
+                    
+                    if (order.status === 'approved') {
+                        const stage = order.stage || 'in_progress';
+
+                        if (stage === 'completed') {
+                            badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40";
+                            badge.innerText = "Project Completed & Launched!";
+                            progressBar.style.width = "100%";
+
+                            step2Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-panda-cyan shadow-cyan-glow opacity-100";
+                            step2Text.className = "text-[10px] text-emerald-400 font-semibold";
+                            step2Text.innerText = "Verified";
+
+                            step3Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-panda-cyan shadow-cyan-glow opacity-100";
+                            step3Text.className = "text-[10px] text-emerald-400 font-bold";
+                            step3Text.innerText = "Completed";
+
+                            step4Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-panda-cyan shadow-cyan-glow opacity-100";
+                            step4Text.className = "text-[10px] text-emerald-400 font-bold";
+                            step4Text.innerText = "Done";
+
+                            // Automatically remove from saved list when completed
+                            let hiddenOrders = JSON.parse(localStorage.getItem('panda_hidden_orders') || '[]');
+                            if (!hiddenOrders.includes(order.id)) {
+                                hiddenOrders.push(order.id);
+                                localStorage.setItem('panda_hidden_orders', JSON.stringify(hiddenOrders));
+                            }
+                            let userOrders = JSON.parse(localStorage.getItem('panda_user_orders') || '[]');
+                            userOrders = userOrders.filter(o => o.id !== order.id);
+                            localStorage.setItem('panda_user_orders', JSON.stringify(userOrders));
+                            loadUserSavedOrders();
+
+                        } else if (stage === 'review') {
+                            badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-400 border border-blue-500/40";
+                            badge.innerText = "Project Under Review";
+                            progressBar.style.width = "75%";
+
+                            step2Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-panda-cyan shadow-cyan-glow opacity-100";
+                            step2Text.className = "text-[10px] text-emerald-400 font-semibold";
+                            step2Text.innerText = "Verified";
+
+                            step3Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-panda-cyan shadow-cyan-glow opacity-100";
+                            step3Text.className = "text-[10px] text-blue-400 font-bold";
+                            step3Text.innerText = "Reviewing";
+
+                            step4Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-panda-cyan opacity-80";
+                            step4Text.className = "text-[10px] text-panda-cyan font-bold";
+                            step4Text.innerText = "Done";
+                        } else {
+                            // In progress
+                            badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40";
+                            badge.innerText = "Payment Approved (Build In Progress)";
+                            progressBar.style.width = "50%";
+                            
+                            step2Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-panda-cyan shadow-cyan-glow opacity-100";
+                            step2Text.className = "text-[10px] text-emerald-400 font-semibold";
+                            step2Text.innerText = "Verified";
+
+                            step3Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-panda-cyan shadow-cyan-glow opacity-100";
+                            step3Text.className = "text-[10px] text-panda-cyan font-bold";
+                            step3Text.innerText = "In Progress";
+
+                            step4Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-panda-cyan opacity-80";
+                            step4Text.className = "text-[10px] text-panda-cyan font-bold";
+                            step4Text.innerText = "Done";
+                        }
+                    } else if (order.status === 'denied') {
+                        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-400 border border-rose-500/40";
+                        badge.innerText = "Payment Denied / Unpaid";
+                        progressBar.style.width = "25%";
+                        
+                        step2Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-rose-500/40 opacity-60";
+                        step2Text.className = "text-[10px] text-rose-400";
+                        step2Text.innerText = "Rejected";
+
+                        step3Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-panda-border opacity-50";
+                        step3Text.className = "text-[10px] text-gray-400";
+                        step3Text.innerText = "Pending";
+
+                        step4Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-panda-border opacity-50";
+                        step4Text.className = "text-[10px] text-gray-500";
+                        step4Text.innerText = "Pending";
+                    } else {
+                        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/40";
+                        badge.innerText = "Pending Admin Review";
+                        progressBar.style.width = "25%";
+                        
+                        step2Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-panda-border opacity-50";
+                        step2Text.className = "text-[10px] text-yellow-400";
+                        step2Text.innerText = "Waiting";
+
+                        step3Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-panda-border opacity-50";
+                        step3Text.className = "text-[10px] text-gray-400";
+                        step3Text.innerText = "Pending";
+
+                        step4Box.className = "p-3 rounded-xl bg-panda-bg/60 border border-panda-border opacity-50";
+                        step4Text.className = "text-[10px] text-gray-500";
+                        step4Text.innerText = "Pending";
+                    }
+                } else {
+                    document.getElementById('trackerProjectTitle').innerText = `Project: Custom Web Creation`;
+                    badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-gray-500/20 text-gray-400 border border-gray-500/40";
+                    badge.innerText = `Order ID Not Found`;
+                    progressBar.style.width = "10%";
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Could not reach backend server to check status.');
+            }
+        }
+    </script>
+</body>
+</html>
+
