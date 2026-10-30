@@ -25,6 +25,11 @@ function writeDB(data) {
     fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
 }
 
+// 0. Serve index.html explicitly at root route to fix "Not Found" error
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // 1. Submit Payment / Order with Phone Number
 app.post('/api/payments/submit', (req, res) => {
     const { name, email, phone, plan, price, brand, code, pin } = req.body;
